@@ -16,4 +16,8 @@
 //= require backbone
 //= require backbone.marionette
 //= require turbolinks
+//
+//= require ./models
+//= require ./views
+//= require ./app
 //= require_tree .

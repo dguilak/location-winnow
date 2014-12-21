@@ -5,9 +5,8 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Your page title here :)</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <title>Pick a location!</title>
+  <meta name="author" content="Daniel Guilak">
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -28,12 +27,27 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
     <div class="row">
-      <div class="eight columns" style="margin-top: 25%">
+      <div class="eleven columns" style="margin-top: 25%">
           <h4>Welcome, <%= @user.name %>!</h4>
-        <p>Pick your store so we can help you hire:</p>
+          <h5>Pick your store so we can help you hire:</h5>
+          <input type="text" class="u-full-width" placeholder="Store or location ..." id="store-search"></textarea>
+
+          <div id='locations-container'></div>
       </div>
     </div>
   </div>
+
+<script type="text/template" id="location-template">
+    <!-- Have to escape otherwise it thinks it's ERB -->
+    <%%= search_str %>
+    <button>Select location</button>
+</script>
+
+<%= javascript_tag do %>
+    var bootstrappedLocations = <%= @locations.to_json.html_safe %>
+    var bootstrappedUser = <%= @user.to_json.html_safe %>
+<% end %>
+</script>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
