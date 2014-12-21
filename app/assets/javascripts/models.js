@@ -1,6 +1,11 @@
 Location = Backbone.Model.extend({
     defaults: {
-        'selected': false
+        'selected': false,
+        'show': false
+    },
+
+    getSearchStr: function() {
+        return this.get('search_str');
     },
 
     getSelected: function() {
@@ -8,17 +13,31 @@ Location = Backbone.Model.extend({
     },
 
     setSelected: function(selected) {
-        this.set('selected', selected);
+        return this.set('selected', selected);
     },
 
     getId: function() {
         return this.get('id');
+    },
+    
+    getShow: function() {
+        return this.get('show');
+    },
+
+    setShow: function(show) {
+        this.set('show', show);
     }
 });
 
 Locations = Backbone.Collection.extend({
     model: Location,
-    url: '/locations',
+
+    /**
+     * Always have selected one at top
+     */
+    comparator: function(location) {
+        return !location.getSelected();
+    },
 
     initialize: function(models, options) {
         this.user = options.user;
@@ -34,6 +53,32 @@ Locations = Backbone.Collection.extend({
                 });
             }
         });
+    },
+
+    populatePreviouslySelected: function() {
+        this.findWhere({ 'id': this.user.getLocationId() }).setSelected(true)
+                                                           .setShow(true);
+    },
+
+    search: function(text) {
+        if (!text) {
+            return this;
+        }
+
+        var searchPattern = new RegExp(text, 'gi');
+        var toShow = this.filter(function(d) {
+            return searchPattern.test(d.getSearchStr());
+        });
+
+        _.each(toShow, function(m) {
+            console.log('setting true');
+            m.setShow(true);
+        });
+
+        _.each(this.without.apply(this, toShow), function(m) {
+            console.log('setting false');
+            m.setShow(false);
+        });
     }
 });
 
@@ -42,5 +87,9 @@ User = Backbone.Model.extend({
     setLocationId: function(location_id) {
         this.set('location_id', location_id);
         this.save({ patch: true });
+    },
+
+    getLocationId: function() {
+        return this.get('location_id');
     }
 });

@@ -30,9 +30,10 @@
       <div class="eleven columns" style="margin-top: 25%">
           <h4>Welcome, <%= @user.name %>!</h4>
           <h5>Pick your store so we can help you hire:</h5>
-          <input type="text" class="u-full-width" placeholder="Store or location ..." id="store-search"></textarea>
-
-          <div id='locations-container'></div>
+          <div id='locations-region'>
+              <input type="text" class="u-full-width" placeholder="Store or location ..." id="store-search"></textarea>
+              <div id='locations-container'></div>
+          </div>
       </div>
     </div>
   </div>
