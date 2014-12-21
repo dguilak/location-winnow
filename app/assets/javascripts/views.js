@@ -27,8 +27,10 @@ LocationView = Backbone.Marionette.ItemView.extend({
 
     renderButton: function() {
         if (this.model.getSelected()) {
+            this.ui.selectedButton.text('Selected location');
             this.ui.selectedButton.addClass('button-primary');
         } else {
+            this.ui.selectedButton.text('Select location');
             this.ui.selectedButton.removeClass('button-primary');
         }
     },

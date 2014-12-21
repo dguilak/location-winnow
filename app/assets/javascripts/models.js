@@ -51,6 +51,7 @@ Locations = Backbone.Collection.extend({
                 _.each(self.without(model), function(m) {
                     m.setSelected(false);
                 });
+                self.sort();
             }
         });
     },
@@ -61,24 +62,22 @@ Locations = Backbone.Collection.extend({
     },
 
     search: function(text) {
-        if (!text) {
-            return this;
+        // If someone deletes everything, want to show nothing
+        if (text == '') {
+            this.map(function(m) {
+                if (!m.getSelected()) {
+                    m.setShow(false);
+                }
+            });
+        } else {
+            // This snippet partially inspired by
+            // http://backbonefu.com/2011/08/filtering-a-collection-in-backbone-js/
+            var searchPattern = new RegExp(text, 'gi');
+            // Want to show only if it's a match or it's the currently selected one
+            this.map(function(m) {
+                m.setShow(searchPattern.test(m.getSearchStr()) || m.getSelected());
+            });
         }
-
-        var searchPattern = new RegExp(text, 'gi');
-        var toShow = this.filter(function(d) {
-            return searchPattern.test(d.getSearchStr());
-        });
-
-        _.each(toShow, function(m) {
-            console.log('setting true');
-            m.setShow(true);
-        });
-
-        _.each(this.without.apply(this, toShow), function(m) {
-            console.log('setting false');
-            m.setShow(false);
-        });
     }
 });
 
