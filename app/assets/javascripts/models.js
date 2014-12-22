@@ -82,8 +82,10 @@ Locations = Backbone.Collection.extend({
      * one automatically
      */
     populatePreviouslySelected: function() {
-        this.findWhere({ 'id': this.user.getLocationId() }).setSelected(true)
-                                                           .setShow(true);
+        if (this.user.getLocationId()) {
+            this.findWhere({ 'id': this.user.getLocationId() }).setSelected(true)
+                                                               .setShow(true);
+        }
     },
 
     /**
@@ -118,6 +120,10 @@ Locations = Backbone.Collection.extend({
  */
 User = Backbone.Model.extend({
     urlRoot: '/users',
+    defaults: {
+        'location_id': null
+    },
+
     setLocationId: function(location_id) {
         this.set('location_id', location_id);
         this.save({ patch: true });
