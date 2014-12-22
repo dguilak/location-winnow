@@ -2,7 +2,7 @@ require 'json'
 
 namespace :seed_db do
     desc "This task seeds the Locations table with info from location.json"
-    task :seed_locations_from_location_json do
+    task :seed_locations_from_location_json => :environment do
         # I renamed some fields in the DB, so this tracks those changes
         field_diff_map = {
             'to_search_s' => 'search_str',
@@ -25,7 +25,7 @@ namespace :seed_db do
     end
 
     desc "Just creates one test user for us to use"
-    task :create_test_user do
+    task :create_test_user => :environment do
         User.create!({ :name => "Jane", :email => "jane@jane.jane" })
     end
 end
