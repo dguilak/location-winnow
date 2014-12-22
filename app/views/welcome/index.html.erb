@@ -46,8 +46,8 @@
 </script>
 
 <%= javascript_tag do %>
-    var bootstrappedLocations = <%= @locations.to_json.html_safe %>
-    var bootstrappedUser = <%= @user.to_json.html_safe %>
+    var bootstrappedLocations = <%= @locations.to_json.html_safe %>;
+    var bootstrappedUser = <%= @user.to_json.html_safe %>;
 <% end %>
 </script>
 
