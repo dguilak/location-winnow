@@ -45,10 +45,10 @@
     <button></button>
 </script>
 
-<%= javascript_tag do %>
+<script type="text/javascript">
     var bootstrappedLocations = <%= @locations.to_json.html_safe %>;
     var bootstrappedUser = <%= @user.to_json.html_safe %>;
-<% end %>
+</script>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
