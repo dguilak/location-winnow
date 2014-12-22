@@ -13,15 +13,21 @@ After push to Heroku, `heroku run rake seed_db:create_test_user` and `heroku run
 
   * Starting with the official guide on the rails site: http://guides.rubyonrails.org/getting_started.html
   * Installed RVM and using this cheat sheet: http://cheat.errtheblog.com/s/rvm
+
     * Installing 2.1.5 — latest stable version, according to Google?
     * Installed Rails
+
   * `rails new location-winnow` to create template
   * While rails was running `bundle install` which was taking a while, started working on frontend:
+
     * Using CSS framework ‘Skeleton’ that I found on HN a few weeks ago and looked lightweight and cool: http://getskeleton.com
     * Modify template file
+
   * Generate new ‘Welcome’ controller with ‘index’ action
   * Add resource (locations)
+
     * Read about ActiveRecord to figure out how best to put the stuff from locations.json in the DB: http://guides.rubyonrails.org/active_record_basics.html
+
   * Created and ran migrations for Location, User
   * Create tasks to parse locations.json and add a sample User
   * Created migration to link Users and Location
@@ -39,6 +45,3 @@ After push to Heroku, `heroku run rake seed_db:create_test_user` and `heroku run
   * Had to switch to postgresql db because Heroku doesn’t support sqlite3
   * Asset pipeline not working on Heroku
   * Fixed with http://natashatherobot.com/rails-4-heroku-assets-not-found-css-image/
-  * Drew inspiration from http://www.stefanosioannou.com/rails-4-simple-search-form/ for a really simple search API
-  * Don't want to do an AJAX request every single keyup, so learned about debouncing: http://davidwalsh.name/javascript-debounce-function
-  * Removed the marionette-level filtering stuff because it's not necessary anymore
