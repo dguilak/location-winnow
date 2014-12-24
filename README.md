@@ -7,6 +7,7 @@ After push to Heroku, `heroku run rake seed_db:create_test_user` and `heroku run
 ## Known Issues
   * When you have one location selected (e.g., `Wells Fargo`) and you search for an unrelated location (e.g., `Starbucks`) and select one of the latter, `Wells Fargo` will still be in the search results. An easyish fix given a little bit more time.
   * It's just a simple `ILIKE` query for search, so no nice fuzzy completion, although I'm sure there's a gem for that somewhere.
+  * Can definitely tweak the debounce timeout and other settings to get search to work well, this is just more of a proof-of-concept.
   * I'm sure there's other stuff, considering I'm new to Ruby and Rails!
 
 ## Devlog
