@@ -4,6 +4,11 @@ Exercise to learn Ruby/RoR
 
 After push to Heroku, `heroku run rake seed_db:create_test_user` and `heroku run rake seed_db:seed_locations_from_location_json`
 
+## Known Issues
+  * When you have one location selected (e.g., `Wells Fargo`) and you search for an unrelated location (e.g., `Starbucks`) and select one of the latter, `Wells Fargo` will still be in the search results. An easyish fix given a little bit more time.
+  * It's just a simple `ILIKE` query for search, so no nice fuzzy completion, although I'm sure there's a gem for that somewhere.
+  * I'm sure there's other stuff, considering I'm new to Ruby and Rails!
+
 ## Devlog
 
   * Starting with the official guide on the rails site: http://guides.rubyonrails.org/getting_started.html
@@ -34,3 +39,6 @@ After push to Heroku, `heroku run rake seed_db:create_test_user` and `heroku run
   * Had to switch to postgresql db because Heroku doesn’t support sqlite3
   * Asset pipeline not working on Heroku
   * Fixed with http://natashatherobot.com/rails-4-heroku-assets-not-found-css-image/
+  * Drew inspiration from http://www.stefanosioannou.com/rails-4-simple-search-form/ for a really simple search API
+  * Don't want to do an AJAX request every single keyup, so learned about debouncing: http://davidwalsh.name/javascript-debounce-function
+  * Removed the marionette-level filtering stuff because it's not necessary anymore
