@@ -1,6 +1,11 @@
 class LocationsController < ApplicationController
     def index
-        @locations = Location.all
+        if params[:query]
+            @locations = Location.where("search_str ilike '%#{params[:query]}%'").limit(10)
+        else
+            @locations = Location.all
+        end
+
         render json: @locations
     end
 

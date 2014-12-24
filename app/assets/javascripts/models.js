@@ -6,7 +6,7 @@
 Location = Backbone.Model.extend({
     defaults: {
         'selected': false,
-        'show': false
+        'show': true
     },
 
     // Use getters and setters to make stack traces nicer
@@ -50,8 +50,6 @@ Locations = Backbone.Collection.extend({
 
     initialize: function(models, options) {
         this.user = options.user;
-
-        var self = this;
         // When a model's selected value changes, propagate changes
         this.on('change:selected', this.changeSelected);
     },
@@ -59,6 +57,8 @@ Locations = Backbone.Collection.extend({
     /**
      * When a model's selected value changes, makes sure that
      * we only have one selected model
+     * 
+     * TODO: Previously selected one is still in collection
      *
      * @param {Location} model - changed Location model
      * @param {bool} val - value of `selected` in new model
@@ -66,6 +66,7 @@ Locations = Backbone.Collection.extend({
     changeSelected: function(model, val) {
         // When one model has been selected, unselect the last one (or ones)
         // Only want to run the gambit if the model has been selected
+        var self = this;
         if(val) {
             self.user.setLocationId(model.getId());
             _.each(self.without(model), function(m) {
@@ -85,30 +86,6 @@ Locations = Backbone.Collection.extend({
         if (this.user.getLocationId()) {
             this.findWhere({ 'id': this.user.getLocationId() }).setSelected(true)
                                                                .setShow(true);
-        }
-    },
-
-    /**
-     * Filters the collection based on `text` in search_str
-     *
-     * @param {str} text - text to filter on
-     */
-    search: function(text) {
-        // If someone deletes everything, want to show nothing
-        if (text == '') {
-            this.map(function(m) {
-                if (!m.getSelected()) {
-                    m.setShow(false);
-                }
-            });
-        } else {
-            // This snippet partially inspired by
-            // http://backbonefu.com/2011/08/filtering-a-collection-in-backbone-js/
-            var searchPattern = new RegExp(text, 'gi');
-            // Want to show only if it's a match or it's the currently selected one
-            this.map(function(m) {
-                m.setShow(searchPattern.test(m.getSearchStr()) || m.getSelected());
-            });
         }
     }
 });

@@ -81,11 +81,30 @@ LocationsLayout = Backbone.Marionette.LayoutView.extend({
     },
 
     /**
-     * Calls search on locations collection
+     * Creates a debounced search function that'll only get called
+     * once every 1000 ms to deal with instant search (kind of
+     * throttles ajax calls)
+     *
+     * TODO: I know that this will trigger for non-input keys, can
+     * fix later
      */
-    search: function() {
+    search: _.debounce(function() {
         var text = $(this.ui.searchBox).val();
-        this.getRegion('locationsList').currentView.collection.search(text);
-        this.getRegion('locationsList').currentView.render();
-    }
+        var currentView = this.getRegion('locationsList').currentView;
+        var selected = currentView.collection.findWhere({ selected: true });
+
+        // Only going to trigger with 2 or more characters
+        if (text.length > 1) {
+            $.get('locations/', { query: text }, function(d) {
+                // Make sure that selected one is always in set
+                d.push(selected);
+                currentView.collection.set(d);
+            });
+        } else {
+            // Clear the list except for the selected one
+            currentView.collection.set(selected);
+        }
+
+        currentView.render();
+    }, 500)
 });
