@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
 private
 
-  def allow_access_control_headers do
+  def allow_access_control_headers
     headers['Access-Control-Allow_origin'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
   end
