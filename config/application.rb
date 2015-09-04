@@ -23,5 +23,18 @@ module LocationWinnow
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # This handles cross-origin resource sharing.
+    # See: https://github.com/cyu/rack-cors
+    config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        # We don't care about the origin.
+        origins '*'
+
+        # 'methods' refer to the 'Access-Control-Request-Method', not the normal
+        # Request Method in rails
+        resource '*', :headers => :any, :methods => [:get, :post, :options, :delete, :put, :patch], credentials: true
+      end
+    end
   end
 end
